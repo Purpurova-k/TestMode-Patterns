@@ -64,14 +64,14 @@ public class DataGenerator {
                     .then()
                     .statusCode(200);
         }
-    }
 
 
-    public static String generateWrongLogin() {
-       return faker.name().firstName();
-    }
+        public static String generateWrongLogin() {
+            return faker.name().firstName();
+        }
 
-    public static String generateWrongPassword() {
-        return faker.internet().password();
+        public static String generateWrongPassword() {
+            return faker.internet().password();
+        }
     }
 }
