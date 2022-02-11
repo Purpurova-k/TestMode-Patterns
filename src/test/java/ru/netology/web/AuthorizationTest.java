@@ -23,7 +23,7 @@ public class AuthorizationTest {
         open("http://localhost:9999/");
 
         login = $("[data-test-id=login] input");
-        password = $("[data-test-id=password] .input");
+        password = $("[data-test-id=password] input");
         button = $("[data-test-id=action-login]");
         error = $("[data-test-id='error-notification'] .notification__content");
     }
