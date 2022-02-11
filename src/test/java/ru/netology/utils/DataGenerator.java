@@ -17,6 +17,14 @@ public class DataGenerator {
 
     Faker faker = new Faker(new Locale("en"));
 
+    public static String generateRandomLogin() {
+        return faker.name().firstName();
+    }
+
+    public static String generateRandomPassword() {
+        return faker.internet().password();
+    }
+
     private static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(9999)
@@ -29,49 +37,28 @@ public class DataGenerator {
     @UtilityClass
     public static class Registration {
 
-        public static RegistrationInfo activeUser() {
+        public static RegistrationInfo generateUser(String status) {
             return new RegistrationInfo(
-                    faker.name().firstName(),
-                    faker.internet().password(),
-                    "active");
-        }
-
-        public static RegistrationInfo blockedUser() {
-            return new RegistrationInfo(
-                    faker.name().firstName(),
-                    faker.internet().password(),
-                    "blocked");
+                    generateRandomLogin(),
+                    generateRandomPassword(),
+                    status);
         }
 
 
-        public static void registerActiveUser() {
+        public static void registerUser(RegistrationInfo user) {
             given()
                     .spec(requestSpec)
-                    .body(activeUser())
+                    .body(user)
                     .when()
                     .post("/api/system/users")
                     .then()
                     .statusCode(200);
         }
 
-
-        public static void registerBlockedUser() {
-            given()
-                    .spec(requestSpec)
-                    .body(blockedUser())
-                    .when()
-                    .post("/api/system/users")
-                    .then()
-                    .statusCode(200);
-        }
-
-
-        public static String generateWrongLogin() {
-            return faker.name().firstName();
-        }
-
-        public static String generateWrongPassword() {
-            return faker.internet().password();
+        public static RegistrationInfo generateRegisteredUser(String status) {
+            RegistrationInfo user = generateUser(status);
+            registerUser(user);
+            return user;
         }
     }
 }
